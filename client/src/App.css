@@ -1,0 +1,139 @@
+* {
+  box-sizing: border-box;
+  color: #333;
+  font-family: larssiet, "Avant Garde", Avantgarde, "Century Gothic", CenturyGothic, AppleGothic, Verdana, sans-serif;
+  letter-spacing: 1px;
+}
+
+div {
+  margin: 10px;
+}
+
+
+input, select {
+  padding: 12px;
+  border: 1px solid #ccc;
+  border-radius: 4px;
+  resize: vertical;
+  margin: 5px;
+}
+
+
+input[type=submit] {
+  background-color: #4CAF50;
+  color: white;
+  padding: 12px 20px;
+  border: none;
+  border-radius: 4px;
+  cursor: pointer;
+  min-width: 100px;
+}
+
+input[type=submit]:hover {
+  background-color: #45a049;
+}
+
+
+.form-errors {
+  display: block;
+  color: red;
+}
+
+.addresses {
+  display: block;
+}
+
+.form {
+  display: flex;
+  flex-direction: column;
+  border-radius: .5rem;
+  border: 1px solid currentColor;
+  padding: 2rem;
+}
+
+.contact-info {
+  display: grid;
+  align-items: center;
+  /* border: 2px solid blue; */
+}
+
+.potion {
+  /* border: 1px solid red; */
+  display: grid;
+  grid-template-columns: 50% 50%;
+  align-items: center;
+}
+.img-div {
+  /* border: 2px solid blue; */
+  /* margin-left: 30%; */
+  margin: auto;
+}
+
+h2 {
+  text-align: center;
+  color: rgb(42, 41, 67);
+  /* background-color: whitesmoke; */
+}
+
+h3 {
+  text-align: center;
+  color: rgb(42, 41, 67);
+
+  /* background-color: whitesmoke; */
+}
+
+.name, .addresses, .add2, .contact, .creditCard {
+  display: flex;
+  align-items: center;
+  /* margin-left: 15%; */
+}
+
+input[name=firstName], input[name=lastName],
+input[name=street1], input[name=street2],
+input[name=email], input[name=phoneNumber], 
+input[name=ccNum] {
+  padding: 12px;
+  border: 1px solid #ccc;
+  border-radius: 4px;
+  resize: vertical;
+  margin: 5px;
+  width: 100%;
+}
+
+.firstName, .lastName {
+  width: 50%;
+}
+
+.success-order {
+  color: green;
+  text-align: center;
+}
+
+.none-display {
+  display: none;
+}
+
+
+select {
+  -webkit-appearance: none;
+  -moz-appearance: none;
+  appearance: none; /* hides the native UI */
+
+  padding-right: 1.5em; /* prevents input text from running into background image */
+
+  background-image: url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 8 8" fill="none" stroke="black"><path d="M7.5 3L4 6 .5 3"/></svg>');
+  background-size: 0.7em;
+  background-repeat: no-repeat;
+  background-position: right 0.5em center;
+}
+
+@media (max-width: 800px) {
+  .form input {
+    margin: 10px 0;
+  }
+  
+  .form {
+    flex-direction: column;
+    align-items: stretch;
+  }
+}
