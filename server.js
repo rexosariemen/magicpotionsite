@@ -45,7 +45,7 @@ app.use('/magic', (req, res) => {
 
 // serve build file on production
 if (process.env.NODE_ENV === "production") {
-  app.use(express.static('view/build'));
+  app.use(express.static('client/build'));
 }
 
 app.use('/', (req, res) => {

@@ -7,14 +7,13 @@
     "node": "12.x"
   },
   "scripts": {
-    "start": "node server.js",
+    "test": "test",
     "build": "cd client && npm run build",
     "install-client": "cd client && npm install",
     "heroku-postbuild": "npm run client-install && npm run build",
-    "server": "nodemon server.js",
+    "start": "node server.js",
     "client": "cd client && npm start",
-    "dev": "concurrently \"npm run server\" \"npm run client\"",
-    "test": "test"
+    "dev": "concurrently \"npm run server\" \"npm run client\""
   },
   "author": "Rex Osariemen",
   "license": "MIT",
