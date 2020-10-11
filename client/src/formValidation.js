@@ -1,3 +1,6 @@
+/**
+ * Form validation module
+ */
 // const required = val => val && val.length;
 // const maxLength = len => val => !val || (val.length <= len);
 // const minLength = len => val => val && (val.length >= len);
@@ -80,6 +83,7 @@ export const validate = (
 
   // validate cardNumber
   if (stateObj.touched.ccNum) {
+    const card = stateObj.payment.ccNum;
     if (!card) {
       errors.ccNum = 'Please provide your card number.'
     } else if (!validCard(card)) {
@@ -89,9 +93,12 @@ export const validate = (
 
   // validate expiration
   if (stateObj.touched.exp) {
-
-    if (validateExpiryDate(exp) !== true) {
-      errors.exp += validateExpiryDate(exp);
+    const expDate = stateObj.payment.exp;
+    if (!expDate) { 
+      errors.exp = 'Please provide the expiration date on your card';
+    } else
+    if (validateExpiryDate(expDate) !== true) {
+      errors.exp += validateExpiryDate(expDate);
     };
   }
   return errors;
@@ -156,12 +163,7 @@ function validCard(cardNumber) {
 // To validate card expiration:
 function validateExpiryDate(s) {
 
-  // Check to make sure it isn't empty
-  if (!s) {
-    return 'Please provide the expiration date on your card.'
-  }
-
-  // Check 2/2 digits
+  // Check 2/2 digits format
   if (!/\d\d\/\d\d/.test(s)) {
     return 'Expiry date format must be MM/YY';
   }

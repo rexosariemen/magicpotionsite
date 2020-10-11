@@ -1,46 +1,50 @@
 const express = require('express');
 const MagicPotion = require('../../models/magicPotion');
 const magicPotionRouter = express.Router();
-const newOrderLegible = require('../../config').newOrderLegible;
+const { checkOrder, createOrder } = require('../magicController/magic.js');
 
 
 magicPotionRouter.route('/')
-.get((req, res, next) => {
-  // Todo: remove this endpoint! Use only for testing
+.get((req, res, next) => { //! For Development only, remove!
   MagicPotion.find()
   .then(potions => {
     console.log('req.body: ', req.body)
     console.log('here at /magic get endpoint!')
-    res.statusCode = 200 || 201;
+    res.statusCode = 200;
     res.setHeader('Content-Type', 'application/json');
     res.json(potions);
   })
   .catch(err => next(err));
 })
-.post((req, res, next) => {
-  MagicPotion.find()
-  .then(potions => {
-    console.log('req.body: ', req.body)
-    // only post new order if user is eligible for new order;
-    const legibility = newOrderLegible(potions, req.body);
-    console.log('Leg: ', legibility);
-    if (legibility) {
-      console.log('here at /magic post endpoint!')
-      MagicPotion.create(req.body)
-      .then(potion => {
-      console.log('Potion create: ', potion);
-      res.statusCode = 201;
-      res.setHeader('Content-Type', 'application/json');
-      res.json({id: potion._id});
-      }).catch(err => next(err));
-    } else {
-      res.statusCode = 404;
-      res.statusMessage = legibility
-      res.json(res.statusMessage);
-    }
+.post(checkOrder, (req, res, next) => {
+  const newOrderAllowed = res.locals.legibility;
+  if (!newOrderAllowed) {
+    res.statusCode = 400;
+    res.statusMessage = 'Exceeded max';
+    res.setHeader('Content-Type', 'applicatoin/json');
+    res.json({
+      status: 'Fail',
+      message: 'Order of more than 3 magic potions can not be made by the same client for a given month!'
+    });
+  } else {
+    MagicPotion.create(req.body)
+    .then(potion => {
+    res.statusCode = 201;
+    res.setHeader('Content-Type', 'application/json');
+    res.json({id: potion._id});
+    })
+    .catch(err => next(err));
+  }
+})
+.delete((req, res, next) => { //! For Development only, remove!
+  MagicPotion.deleteMany()
+  .then(response => {
+    res.statusCode = 200;
+    res.setHeader('Content-Type', 'application/json');
+    res.json(response);
   })
   .catch(err => next(err));
-});
+})
 
 // @Params
 magicPotionRouter.route('/:potionId')
@@ -79,7 +83,7 @@ magicPotionRouter.route('/:potionId')
   .catch(err => next(err))
 })
 .delete((req, res, next) => {
-  MagicPotion.findByIdAndUpdate(req.params.potionId)
+  MagicPotion.findByIdAndDelete(req.params.potionId)
   .then(response => {
     if (response) {
       res.statusCode = 200;
@@ -97,14 +101,3 @@ magicPotionRouter.route('/:potionId')
 });
 
 module.exports = magicPotionRouter;
-
-/**
- * {
-"firstName": "Me", "lastName": "string", "email": "string", "address": {
-"street1": "address", "street2": "string", "city": "string", "state": "string", "zip": "string"
-},
-"phone": "string", "quantity": 2, "total": "$199.80", "payment": {
-"ccNum": "string",
-"exp": "string" }
-}
- */

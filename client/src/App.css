@@ -9,7 +9,6 @@ div {
   margin: 10px;
 }
 
-
 input, select {
   padding: 12px;
   border: 1px solid #ccc;
@@ -18,21 +17,20 @@ input, select {
   margin: 5px;
 }
 
-
 input[type=submit] {
   background-color: #4CAF50;
-  color: red;
+  color: white;
   padding: 12px 20px;
   border: none;
   border-radius: 4px;
   cursor: pointer;
   min-width: 100px;
+  font-weight: bolder;
 }
 
 input[type=submit]:hover {
   background-color: #45a049;
 }
-
 
 .form-errors {
   display: block;
@@ -54,38 +52,29 @@ input[type=submit]:hover {
 .contact-info {
   display: grid;
   align-items: center;
-  /* border: 2px solid blue; */
 }
 
 .potion {
-  /* border: 1px solid red; */
   display: grid;
   grid-template-columns: 50% 50%;
   align-items: center;
 }
 .img-div {
-  /* border: 2px solid blue; */
-  /* margin-left: 30%; */
   margin: auto;
 }
 
 h2 {
   text-align: center;
   color: rgb(42, 41, 67);
-  /* background-color: whitesmoke; */
 }
 
 h3 {
   text-align: center;
   color: rgb(42, 41, 67);
-
-  /* background-color: whitesmoke; */
 }
-
-.name, .addresses, .add2, .contact, .creditCard {
+.name, .street1, .street2, .contact, .creditCard {
   display: flex;
   align-items: center;
-  /* margin-left: 15%; */
 }
 
 input[name=firstName], input[name=lastName],
@@ -104,8 +93,20 @@ input[name=ccNum] {
   width: 50%;
 }
 
+input[name=city], input[name=zip]  {
+  width: 40%;
+}
+select[name=state] {
+  width: 20%;
+}
+
 .success-order {
   color: green;
+  text-align: center;
+}
+
+.bad-order {
+  color: orange;
   text-align: center;
 }
 
@@ -113,27 +114,15 @@ input[name=ccNum] {
   display: none;
 }
 
-
 select {
   -webkit-appearance: none;
   -moz-appearance: none;
-  appearance: none; /* hides the native UI */
+  appearance: none;
 
-  padding-right: 1.5em; /* prevents input text from running into background image */
+  padding-right: 1.5em;
 
   background-image: url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 8 8" fill="none" stroke="black"><path d="M7.5 3L4 6 .5 3"/></svg>');
   background-size: 0.7em;
   background-repeat: no-repeat;
   background-position: right 0.5em center;
-}
-
-@media (max-width: 800px) {
-  .form input {
-    margin: 10px 0;
-  }
-  
-  .form {
-    flex-direction: column;
-    align-items: stretch;
-  }
 }

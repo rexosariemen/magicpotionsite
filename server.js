@@ -2,12 +2,9 @@ const express = require('express');
 const mongoose = require('mongoose');
 const logger = require('morgan');
 const path = require('path');
-const bodyParser = require('body-parser');
-const cors = require('cors');
 
 // add routes
-// const indexRouter = require('./routes/index');
-const magicPotionRouter = require('./routes/api/magic');
+const magicPotionRoutes = require('./routes/api/magic');
 const url = require('./config').mongoUrl;
 
 // Database construct
@@ -24,24 +21,26 @@ connect.then(() => console.log('Connected to MongoDBserver'),
 
 const port = process.env.PORT || '5500';
 
-//  initialize app
+//  initialize app and log http reqs
 const app = express();
 app.use(logger('dev'));
 
+// parse req
 app.use(express.json());
-app.use(bodyParser.json());
-app.use(bodyParser.urlencoded({
-  extended: true
-}));
+app.use(express.urlencoded({extended: true}))
+// app.get('/', (req, res) => {
+//   console.log('req.body from server.js: ', req.body);
+// })
+// app.post('/', (req, res) => {
+//   console.log('req.body from server.js: ', req.body);
+// })
 
-app.use(cors());
-// app.use(express.urlencoded({ extended: false }));
 
 //! magic route
-app.use('/magic', magicPotionRouter);
-app.use('/magic', (req, res) => {
-  console.log('req.body from server.js: ', req.body);
-});
+app.use('/magic', magicPotionRoutes);
+// app.use('/magic', (req, res) => {
+//   console.log('req.body from server.js: ', req.body);
+// });
 
 // serve build file on production
 if (process.env.NODE_ENV === "production") {

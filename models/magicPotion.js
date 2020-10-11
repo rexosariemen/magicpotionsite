@@ -68,8 +68,6 @@ const magicPotionSchema = new Schema({
       required: true
     }
   },
-}, {
-  timestamps: true,
 });
 
 module.exports = Mongoose.model('MagicPotion', magicPotionSchema);

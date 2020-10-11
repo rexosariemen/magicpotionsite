@@ -1,14 +1,12 @@
 import React, { Component } from 'react';
-import { validate } from './formValidation';
+import { validate } from '../formValidation';
 import axios from 'axios';
 
 const imageUrl = 'https://cdna.artstation.com/p/assets/images/images/009/838/868/large/anna-emelyanova-bottle-3.jpg?1521148475';
 
 class ContactComponent extends Component {
-  constructor(props) {
-    super(props);
 
-    this.initialState = {
+    initialState = {
       quantity: '',
       total: '',
       firstName: '',
@@ -33,12 +31,13 @@ class ContactComponent extends Component {
         lastName: false,
         phoneNumber: false,
 
-      }
+      },
+      exceedMaxQuantiy: ''
     }
-    this.state = this.initialState;
-    this.errors = {};
-    this.successOrder = 'none-display';
-  }
+    state = this.initialState;
+    errors = {};
+    successOrder = 'none-display';
+    badOrder = 'node-display';
 
   handleChange = (e) => {
     const { name, value } = e.target;
@@ -61,6 +60,7 @@ class ContactComponent extends Component {
       })
     }
     this.successOrder = 'none-display';
+    this.badOrder = 'none-display';
   }
 
   handleFormReset = () => {
@@ -81,21 +81,26 @@ class ContactComponent extends Component {
       total: this.state.total,
       payment: this.state.payment
     }
-    // this.handleChange(e);
-    // console.log('errorObj: ', this.errors);
-    // console.log(this.isErrors(Object.values(this.errors)));
-    // console.log(`state: ${JSON.stringify(this.state)}`)
-    if (!this.isErrors(Object.values(this.errors))) {
+
+    if (this.isErrors(Object.values(this.errors))) { //!flip this to undo testing
       axios.post('/magic', formData)
-      .then(res => res.json())
-      .then(data => {
-        console.log('this is the data in res Object: ', data);
+      .then(() => {
+        this.handleFormReset();
+        this.successOrder = 'success-order';
+        this.forceUpdate();
       })
       .catch(err => {
-        console.log('An error has occurred: ', err);
+        if (err.response.status === 400) {
+          this.badOrder = 'bad-order';
+          this.setState({
+            exceedMaxQuantiy: 'Order of more than 3 magic potions cannot be made by the same client for a given month!' 
+          });
+        } else {
+          this.handleFormReset();
+          this.successOrder = 'success-order';
+        }
+        console.log(`Server Errors: ${err.response.status}:${err.response.statusMessage}`);
       });
-      this.handleFormReset();
-      this.successOrder = 'success-order';
     }
   }
 
@@ -145,6 +150,7 @@ class ContactComponent extends Component {
 
           <div className='contact-info'>
             <h4 className={this.successOrder}>Your order has been placed!</h4>
+            <h4 className={this.badOrder}>{this.state.exceedMaxQuantiy}</h4>
             <h3>Contact | Billing Information</h3>
             <div className='name'>
               <input type='text/plain' name='firstName' placeholder='First Name'
@@ -161,7 +167,7 @@ class ContactComponent extends Component {
                 <em className='form-errors'>{this.errors.lastName}</em>
             </div>
             
-            <div className='addresses'>
+            <div className='street1'>
               <input type='text/plain' name='street1' 
               placeholder='Address Line 1'
                 value={this.state.address.street1}
@@ -174,7 +180,7 @@ class ContactComponent extends Component {
                 value={this.state.address.street2}
                 onChange={this.handleChange} />
             </div>
-            <div className='add2'>
+            <div className='street2'>
               <input type='text/plain' name='city' 
                 placeholder='City'
                 value={this.state.address.city}
@@ -223,14 +229,14 @@ class ContactComponent extends Component {
             <div className='creditCard'>
               <input type='text/plain' name='ccNum' required
                 placeholder='Credit Card Number'
-                value={this.state.ccNum}
+                value={this.state.payment.ccNum}
                 invalid={this.errors.ccNum}
                 onBlur={this.handleBlur('ccNum')}
                 onChange={this.handleChange} />
                 <em className='form-errors'>{this.errors.ccNum}</em>
               <input type='text/plain' name='exp' 
                 placeholder='mm/yy' required
-                value={this.state.exp}
+                value={this.state.payment.exp}
                 invalid={this.errors.exp}
                 onBlur={this.handleBlur('exp')}
                 onChange={this.handleChange} />
