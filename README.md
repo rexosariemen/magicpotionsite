@@ -82,12 +82,11 @@ aggregations limit the amount of data being processed in each stage of the pipel
 This can easily be done since mongoose is tolerant to updates on data schema.
 
 ## To improve the current application
-1. Use street address validation api like <a href="https://smartystreets.com/products/apis/us-street-api">SmartStreets</a>, to validate each address object before submitting the 
+1. Use street address validation api like <a href="https://smartystreets.com/products/apis/us-street-api">SmartStreets</a>, to validate each address object before submitting the form to the server.
 2. Update the data schema and the checkOrder middleware to create users and store 
 orders under respective users. This should improve the algorithm currently being used by the
 checkOrder middleware to check previous orders only under the current user rather than 
 going through every single documents in the db.
-form to the server.
 3. Provide more details to users on their previous orders to create a better 
 user story, especially with regards to making orders of more than 3 potions in 
 a one month period
