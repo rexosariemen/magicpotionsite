@@ -93,7 +93,7 @@ class ContactComponent extends Component {
         if (err.response.status === 400) {
           this.badOrder = 'bad-order';
           this.setState({
-            exceedMaxQuantiy: '!Order of more than 3 magic potions cannot be made by the same client for a given month!' 
+            exceedMaxQuantiy: '!! Order of more than 3 magic potions cannot be made by the same client for a given month!' 
           });
         } else {
           this.handleFormReset();
