@@ -84,11 +84,8 @@ class ContactComponent extends Component {
       total: this.state.total,
       payment: this.state.payment
     }
-    const formValues = Object.values(formData);
-    console.log(formValues);
 
-
-    if (this.isErrors(Object.values(this.errors))) { //!flip this to undo testing
+    if (this.isErrors(Object.values(this.errors))) {
       axios.post('/magic', formData)
       .then(() => {
         this.handleFormReset();
@@ -104,7 +101,7 @@ class ContactComponent extends Component {
         } else if (err.response.status === 500) {
           this.incompleteFields = 'bad-order';
            this.setState({
-            completeFields: '!! Please complete the fields before submitting your order!' 
+            completeFields: '!! Please ensure all fields are completed before submitting your order!' 
           });
         } else {
           this.handleFormReset();
@@ -121,15 +118,6 @@ class ContactComponent extends Component {
     });
   }
 
-  // componentDidUpdate() {
-  //     this.errors = validate(
-  //     this.state, this.state.quantity, this.state.firstName, this.state.lastName, 
-  //     this.state.address.street1, this.state.address.city, 
-  //     this.state.address.state, this.state.address.zip,
-  //     this.state.email, this.state.phoneNumber, this.state.ccNum,
-  //     this.state.exp
-  //   );
-  // }
   
   render() {
 
@@ -210,7 +198,7 @@ class ContactComponent extends Component {
                 onBlur={this.handleBlur('city')}
                 onChange={this.handleChange} />
                 <em className='form-errors'>{this.errors.city}</em>
-              <select name='state'
+              <select name='state' required
                 value={this.state.address.state}
                 invalid={this.errors.state}
                 onBlur={this.handleBlur('state')}
