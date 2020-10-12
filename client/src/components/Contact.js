@@ -93,7 +93,7 @@ class ContactComponent extends Component {
         if (err.response.status === 400) {
           this.badOrder = 'bad-order';
           this.setState({
-            exceedMaxQuantiy: 'Order of more than 3 magic potions cannot be made by the same client for a given month!' 
+            exceedMaxQuantiy: '!Order of more than 3 magic potions cannot be made by the same client for a given month!' 
           });
         } else {
           this.handleFormReset();
@@ -188,7 +188,7 @@ class ContactComponent extends Component {
                 onBlur={this.handleBlur('city')}
                 onChange={this.handleChange} />
                 <em className='form-errors'>{this.errors.city}</em>
-              <select name='state'
+              <select name='state' required
                 value={this.state.address.state}
                 invalid={this.errors.state}
                 onBlur={this.handleBlur('state')}
@@ -234,8 +234,8 @@ class ContactComponent extends Component {
                 onBlur={this.handleBlur('ccNum')}
                 onChange={this.handleChange} />
                 <em className='form-errors'>{this.errors.ccNum}</em>
-              <input type='text/plain' name='exp' 
-                placeholder='mm/yy' required
+              <input type='text/plain' name='exp' required
+                placeholder='mm/yy'
                 value={this.state.payment.exp}
                 invalid={this.errors.exp}
                 onBlur={this.handleBlur('exp')}

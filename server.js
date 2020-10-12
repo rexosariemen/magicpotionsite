@@ -25,26 +25,12 @@ const port = process.env.PORT || '5500';
 const app = express();
 app.use(logger('dev'));
 
-// !Remove below
-app.use(express.static(path.join("client", "build")));
-
-app.use((req, res, next) => {
-  res.setHeader("Access-control-Allow-Origin", "*")
-  res.setHeader("Access-Control-Allow-Methods", "GET, POST, DELETE")
-  res.setHeader("Access-Control-Allow-Headers", "Content-Type")
-  next()
-});
-
-app.use((req, res, next) => {
-  res.sendFile(path.resolve(__dirname, "client", "build", "index.html"));
-});
-
-// "ec2-3-137-202-122.us-east-2.compute.amazonaws.com"
 // parse req
 app.use(express.json());
 app.use(express.urlencoded({extended: true}))
 
 app.use('/magic', magicPotionRoutes);
+
 
 // serve build file on production
 if (process.env.NODE_ENV === "production") {
