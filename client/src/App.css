@@ -106,7 +106,7 @@ select[name=state] {
 }
 
 .bad-order {
-  color: orange;
+  color: lightcoral;
   text-align: center;
 }
 

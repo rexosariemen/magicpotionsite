@@ -75,9 +75,9 @@ export const validate = (
     if (!validEmail(email)) errors.email = 'Please provide a valid email address.'
   }
 
-  // const reg = /(?:(?:(\s*\(?([2-9]1[02-9]|[2-9][02-8]1|[2-9][02-8][02-9])\s*)|([2-9]1[02-9]|[2-9][02-8]1|[2-9][02-8][02-9]))\)?\s*(?:[.-]\s*)?)([2-9]1[02-9]|[2-9][02-9]1|[2-9][02-9]{2})\s*(?:[.-]\s*)?([0-9]{4})/
-  const reg = /^[0-9+()#.\sext-]+$/;
-  if (stateObj.touched.phoneNumber && !reg.test(phoneNumber)) {
+  const reg1 = /(?:(?:(\s*\(?([2-9]1[02-9]|[2-9][02-8]1|[2-9][02-8][02-9])\s*)|([2-9]1[02-9]|[2-9][02-8]1|[2-9][02-8][02-9]))\)?\s*(?:[.-]\s*)?)([2-9]1[02-9]|[2-9][02-9]1|[2-9][02-9]{2})\s*(?:[.-]\s*)?([0-9]{4})/
+  // const reg = /^[0-9+()#.\sext-]+$/;
+  if (stateObj.touched.phoneNumber && (!reg1.test(phoneNumber) )) {
     errors.phoneNumber = 'Please use only valid phone characters: digits, parenthesis, dashes, plus, space, pound, asterisk, period, comma, or the letters e, x, t.';
   }
 

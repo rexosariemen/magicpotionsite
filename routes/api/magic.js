@@ -1,7 +1,7 @@
 const express = require('express');
 const MagicPotion = require('../../models/magicPotion');
 const magicPotionRouter = express.Router();
-const { checkOrder, createOrder } = require('../magicController/magic.js');
+const { checkOrder } = require('../magicController/magic.js');
 
 
 magicPotionRouter.route('/')
@@ -20,7 +20,6 @@ magicPotionRouter.route('/')
   const newOrderAllowed = res.locals.legibility;
   if (!newOrderAllowed) {
     res.statusCode = 400;
-    res.statusMessage = 'Exceeded max';
     res.setHeader('Content-Type', 'applicatoin/json');
     res.json({
       status: 'Fail',
@@ -69,7 +68,7 @@ magicPotionRouter.route('/:potionId')
     { new: true })
   .then(potion => {
     if (potion) {
-      res.statusCode = 200;
+      res.statusCode = 200 || 204;
       res.statusMessage = 'resource updated successfully';
       res.setHeader('Content-Type', 'application/json');
       res.json({ id: potion._id, fulfilled: potion.fulfilled });
@@ -86,7 +85,7 @@ magicPotionRouter.route('/:potionId')
   MagicPotion.findByIdAndDelete(req.params.potionId)
   .then(response => {
     if (response) {
-      res.statusCode = 200;
+      res.statusCode = 200 || 204;
       res.statusMessage = 'resource deleted successfully..';
       res.setHeader('Content-Type', 'application/json');
       res.json(response)
