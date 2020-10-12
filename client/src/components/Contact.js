@@ -32,12 +32,14 @@ class ContactComponent extends Component {
         phoneNumber: false,
 
       },
-      exceedMaxQuantiy: ''
+      exceedMaxQuantiy: '',
+      completeFields: ''
     }
     state = this.initialState;
     errors = {};
     successOrder = 'none-display';
     badOrder = 'node-display';
+    incompleteFields = 'none-display';
 
   handleChange = (e) => {
     const { name, value } = e.target;
@@ -61,6 +63,7 @@ class ContactComponent extends Component {
     }
     this.successOrder = 'none-display';
     this.badOrder = 'none-display';
+    this.incompleteFields = 'none-display';
   }
 
   handleFormReset = () => {
@@ -81,6 +84,9 @@ class ContactComponent extends Component {
       total: this.state.total,
       payment: this.state.payment
     }
+    const formValues = Object.values(formData);
+    console.log(formValues);
+
 
     if (this.isErrors(Object.values(this.errors))) { //!flip this to undo testing
       axios.post('/magic', formData)
@@ -94,6 +100,11 @@ class ContactComponent extends Component {
           this.badOrder = 'bad-order';
           this.setState({
             exceedMaxQuantiy: '!! Order of more than 3 magic potions cannot be made by the same client for a given month!' 
+          });
+        } else if (err.response.status === 500) {
+          this.incompleteFields = 'bad-order';
+           this.setState({
+            completeFields: '!! Please complete the fields before submitting your order!' 
           });
         } else {
           this.handleFormReset();
@@ -109,6 +120,16 @@ class ContactComponent extends Component {
       touched: { ...this.state.touched, [field]: true }
     });
   }
+
+  // componentDidUpdate() {
+  //     this.errors = validate(
+  //     this.state, this.state.quantity, this.state.firstName, this.state.lastName, 
+  //     this.state.address.street1, this.state.address.city, 
+  //     this.state.address.state, this.state.address.zip,
+  //     this.state.email, this.state.phoneNumber, this.state.ccNum,
+  //     this.state.exp
+  //   );
+  // }
   
   render() {
 
@@ -132,7 +153,7 @@ class ContactComponent extends Component {
               </div>
               <div className='quantity'>
                 <label htmlFor="quantity">Qty&nbsp;&nbsp;</label>
-                <input type="number" id="quantity" name="quantity" max='3' required
+                <input type="number" id="quantity" name="quantity" max='3'
                   value={this.state.quantity}
                   invalid={this.errors.quantity}
                   onBlur={this.handleBlur('quantity')}
@@ -151,6 +172,7 @@ class ContactComponent extends Component {
           <div className='contact-info'>
             <h4 className={this.successOrder}>Your order has been placed!</h4>
             <h4 className={this.badOrder}>{this.state.exceedMaxQuantiy}</h4>
+            <h4 className={this.incompleteFields}>{this.state.completeFields}</h4>
             <h3>Contact | Billing Information</h3>
             <div className='name'>
               <input type='text/plain' name='firstName' placeholder='First Name'
@@ -188,7 +210,7 @@ class ContactComponent extends Component {
                 onBlur={this.handleBlur('city')}
                 onChange={this.handleChange} />
                 <em className='form-errors'>{this.errors.city}</em>
-              <select name='state' required
+              <select name='state'
                 value={this.state.address.state}
                 invalid={this.errors.state}
                 onBlur={this.handleBlur('state')}
@@ -227,14 +249,14 @@ class ContactComponent extends Component {
             </div>
             
             <div className='creditCard'>
-              <input type='text/plain' name='ccNum' required
+              <input type='text/plain' name='ccNum'
                 placeholder='Credit Card Number'
                 value={this.state.payment.ccNum}
                 invalid={this.errors.ccNum}
                 onBlur={this.handleBlur('ccNum')}
                 onChange={this.handleChange} />
                 <em className='form-errors'>{this.errors.ccNum}</em>
-              <input type='text/plain' name='exp' required
+              <input type='text/plain' name='exp'
                 placeholder='mm/yy'
                 value={this.state.payment.exp}
                 invalid={this.errors.exp}
