@@ -31,6 +31,22 @@ app.use(express.urlencoded({extended: true}))
 
 app.use('/magic', magicPotionRoutes);
 
+//!Experimental
+app.use(express.static(path.join("client", "build")));
+
+// Set CORS header
+app.use((req, res, next) => {
+  res.setHeader("Access-control-Allow-Origin", "*")
+  res.setHeader("Access-Control-Allow-Methods", "GET, POST, DELETE")
+  res.setHeader("Access-Control-Allow-Headers", "Content-Type")
+  next()
+});
+
+app.use((req, res, next) => {
+  res.sendFile(path.resolve(__dirname, "client", "build", "index.html"));
+});
+//!Experiemental for production
+
 
 // serve build file on production
 if (process.env.NODE_ENV === "production") {
