@@ -38,7 +38,7 @@ input[type=submit]:hover {
 }
 
 .addresses {
-  display: block;
+  display: flex;
 }
 
 .form {
@@ -55,10 +55,11 @@ input[type=submit]:hover {
 }
 
 .potion {
-  display: grid;
-  grid-template-columns: 50% 50%;
+  display: flex;
+  flex-direction: column;
   align-items: center;
 }
+
 .img-div {
   margin: auto;
 }
@@ -79,8 +80,8 @@ h3 {
 
 input[name=firstName], input[name=lastName],
 input[name=street1], input[name=street2],
-input[name=email], input[name=phoneNumber], 
-input[name=ccNum] {
+input[name=email], input[name=phoneNumber]
+ {
   padding: 12px;
   border: 1px solid #ccc;
   border-radius: 4px;
@@ -88,6 +89,24 @@ input[name=ccNum] {
   margin: 5px;
   width: 100%;
 }
+
+input[name=ccNum] {
+  padding: 12px;
+  border: 1px solid #ccc;
+  border-radius: 4px;
+  resize: vertical;
+  margin: 5px;
+  width: 70%;
+}
+input[name=exp] {
+  padding: 12px;
+  border: 1px solid #ccc;
+  border-radius: 4px;
+  resize: vertical;
+  margin: 5px;
+  width: 30%;
+}
+
 
 .firstName, .lastName {
   width: 50%;
