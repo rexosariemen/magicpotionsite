@@ -8,8 +8,6 @@ magicPotionRouter.route('/')
 .get((req, res, next) => { //! For Development only, remove!
   MagicPotion.find()
   .then(potions => {
-    console.log('req.body: ', req.body)
-    console.log('here at /magic get endpoint!')
     res.statusCode = 200;
     res.setHeader('Content-Type', 'application/json');
     res.json(potions);
@@ -50,9 +48,8 @@ magicPotionRouter.route('/:potionId')
 .get((req, res, next) => {
   MagicPotion.findById(req.params.potionId)
   .then(potion => {
-    console.log('potion: ', potion)
     if (potion) {
-      res.statusCode = 201;
+      res.statusCode = 200;
       res.setHeader('Content-Type', 'application/json');
       res.json(potion);
     } else {
